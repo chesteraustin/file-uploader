@@ -3,8 +3,10 @@ namespace file_uploader.Models
 {
     public class FileUploaderContext : DbContext
     {
-        public DbSet<UserModel> Users { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite(@"Data Source=Database\FileUploader.db");
+        public FileUploaderContext( DbContextOptions<FileUploaderContext> options) : base(options)
+        {
+            
+        }
+        public DbSet<UserModel> Users => Set<UserModel>();
     }
 }
