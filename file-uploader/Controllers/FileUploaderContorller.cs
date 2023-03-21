@@ -20,16 +20,21 @@ namespace file_uploader.Controllers
 
         // GET: api/FileUploader
         [HttpGet]
-        public async Task<ActionResult<List<UserModel>>>  GetUsers ()
+        public async Task<ActionResult<List<UserModel>>>  GetAllUsers ()
         {
             return Ok(await _context.Users.ToListAsync());
         }
 
         // GET api/FileUploader/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<UserModel>> GetUser(int id)
         {
-            return $"value = {id}";
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return BadRequest("User not found.");
+            }
+            return Ok(user);
         }
 
         // POST api/FileUploader
