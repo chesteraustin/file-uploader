@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "file-uploader", "file-uploader.csproj", "{7132EB7E-C59E-4C55-8EF1-6B15D9A2563A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "file-uploader-test", "..\file-uploader-test\file-uploader-test.csproj", "{D9252455-5F06-4F59-9594-FAD8CDE1B3EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7132EB7E-C59E-4C55-8EF1-6B15D9A2563A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7132EB7E-C59E-4C55-8EF1-6B15D9A2563A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7132EB7E-C59E-4C55-8EF1-6B15D9A2563A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9252455-5F06-4F59-9594-FAD8CDE1B3EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9252455-5F06-4F59-9594-FAD8CDE1B3EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9252455-5F06-4F59-9594-FAD8CDE1B3EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9252455-5F06-4F59-9594-FAD8CDE1B3EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
