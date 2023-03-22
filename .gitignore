@@ -362,6 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-/file-uploader/Migrations
 /file-uploader/Database/test.sql
 /file-uploader/UserFiles

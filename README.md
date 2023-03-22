@@ -15,9 +15,13 @@ A sample user is included in the Database with the following credentials:
 Swagger documentation is avaialle upon build at `/swagger`.  It is a fairly simple REST-ful API with the following endpoints:
 
 `GET`: `/api/FileUploader` - Test API that lists all Users in the `Users` table
+
 `POST` : `/api/FileUploader` - Allows an **authorized** user to `Upload` a number of files.  Any files with the same filename will be marked as the most recent version and the previous version will be versioned with the next highest version number for that file.
+
 `GET`: `/api/FileUploader/{UserId}` - Allows a search of files for a specific user.  Searh parameters can be by `FileName` or `Version` number
+
 `GET`: `/api/FileUploader/Download/{UserId}` - Allows the download of a file by either a `FileId` or `FileName`.  A `FileId` is specific whereas a `FileName` will download the most recent version.
+
 `DELETE`: `/api/FileUploader/{FileId}` - Allows an **authorized** user to `Delete` their own file
 
 ## Endpoint Instructions
@@ -135,6 +139,11 @@ Sample Response
  
 `GET`: `/api/FileUploader/Download/{UserId}` 
 
-Sample Request: [https://localhost:7132/api/FileUploader/Download/1?FileName=Capture&FileId=0&Version=0]https://localhost:7132/api/FileUploader/Download/1?FileName=Capture&FileId=0&Version=0
+Sample Request: https://localhost:7132/api/FileUploader/Download/1?FileName=Capture&FileId=0&Version=0
 
 `DELETE`: `/api/FileUploader/{FileId}`
+
+A fileID is to be passed the URL as well as the following fields in a request `Body` are necessary to `DELETE` to this endpoint:
+`FileId` - integer
+`userName` - string
+`password` - string
