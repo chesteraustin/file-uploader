@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 using file_uploader.DTO;
 using file_uploader.Models;
 using System.Drawing;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -46,6 +47,53 @@ namespace file_uploader.Controllers
                 userFiles = userFiles.Where(i => i.Version == Version);
             }
             return Ok(userFiles);
+        }
+
+        // GET api/FileUploader/Download/5
+        [HttpGet("Download/{UserId}")]
+        public async Task<ActionResult> DownloadFiles(int UserId, string? FileName, int FileId = 0, int Version = 0)
+        {
+            if (String.IsNullOrEmpty(FileName) && FileId == 0)
+            {
+                return BadRequest("Please provide a FileName or FileID to download.");
+            }
+
+            var user = _context.Users.Where(i => i.Id == UserId).FirstOrDefault();
+            var userFiles = _context.UserFiles.Where(i => i.UserId == UserId );
+
+
+            if (!String.IsNullOrEmpty(FileName))
+            {
+                userFiles = userFiles.Where(i => i.FileName.Contains(FileName));
+            }
+
+            if (FileId > 0)
+            {
+                userFiles = userFiles.Where(i => i.Id == FileId);
+            }
+
+            if (userFiles.FirstOrDefault() == null)
+            {
+                if (!String.IsNullOrEmpty(FileName))
+                {
+                    return BadRequest($"The FileName = `{FileName}` at the request version {Version} was not found.");
+                }
+                return BadRequest($"FileId {FileId}` was not found.");
+            }
+
+            userFiles = userFiles.Where(i => i.Version == Version);
+
+            //File exists, find and return to client
+            var selectedFile = userFiles.FirstOrDefault();
+
+            var filePath = $"UserFiles\\{user.UserName}";
+            if (Version != 0)
+            {
+                filePath = $"{filePath}\\Archive\\{Version}";
+            }
+            filePath = $"{filePath}\\{selectedFile.FileName}{selectedFile.FileExtension}";
+
+            return File(System.IO.File.OpenRead(filePath), "application/octet-stream",  Path.GetFileName(filePath));
         }
 
         // POST api/FileUploader
@@ -129,12 +177,6 @@ namespace file_uploader.Controllers
             }
             //User is valid
             return Ok(uploadFile.userFiles);
-        }
-
-        // PUT api/FileUploader/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
         }
 
         // DELETE api/FileUploader/5
