@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using file_uploader.DTO;
+using System.Drawing;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -39,8 +41,17 @@ namespace file_uploader.Controllers
 
         // POST api/FileUploader
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> UploadFiles([FromForm] UploadFileDTO uploadFile)  
         {
+            //Check Username and Password
+            var user = _context.Users.Where(i => i.UserName == uploadFile.userName.Trim() && i.Password == uploadFile.password).FirstOrDefault();
+            if (user == null)
+            {
+                return BadRequest("Invalid Username or Password");
+            }
+            
+            //User is valid
+            return Ok(user);
         }
 
         // PUT api/FileUploader/5

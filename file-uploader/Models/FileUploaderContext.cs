@@ -8,5 +8,6 @@ namespace file_uploader.Models
             
         }
         public DbSet<UserModel> Users => Set<UserModel>();
+        public DbSet<FileModel> Files => Set<FileModel>();
     }
 }
