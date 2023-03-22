@@ -138,9 +138,36 @@ namespace file_uploader.Controllers
         }
 
         // DELETE api/FileUploader/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{FileId}")]
+        public async Task<ActionResult> Delete([FromForm] UploadFileDTO deleteFile, int FileId)
         {
+            //Check Username and Password
+            var user = _context.Users.Where(i => i.UserName == deleteFile.userName.Trim() && i.Password == deleteFile.password).FirstOrDefault();
+            if (user == null)
+            {
+                return BadRequest("Invalid Username or Password");
+            }
+            
+            var removeRecord = _context.UserFiles.Where(i => i.Id == FileId).FirstOrDefault();
+
+            if (removeRecord == null)
+            {
+                return Ok($"FileId {FileId} does not exists.");
+            }
+
+            //File exists, find and delete file from the fileSystem
+            var filePath = $"UserFiles\\{user.UserName}";
+            if (removeRecord.Version != 0)
+            {
+                filePath = $"{filePath}\\Archive\\{removeRecord.Version}";
+            }
+            filePath = $"{filePath}\\{removeRecord.FileName}{removeRecord.FileExtension}";
+            System.IO.File.Delete(filePath);
+
+            _context.UserFiles.Remove(removeRecord);
+            _context.SaveChanges();
+
+            return Ok($"FileId {FileId} deleted.");
         }
     }
 }
