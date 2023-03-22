@@ -28,15 +28,24 @@ namespace file_uploader.Controllers
         }
 
         // GET api/FileUploader/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserModel>> GetUser(int id)
+        [HttpGet("{UserId}")]
+        public async Task<ActionResult> GetFiles(int UserId, string? FileName, int Version = -1)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var userFiles = _context.UserFiles.Where(i => i.UserId == UserId);
+
+            if (!String.IsNullOrEmpty(FileName))
             {
-                return BadRequest("User not found.");
+                userFiles = userFiles.Where(i => i.FileName.Contains(FileName));
             }
-            return Ok(user);
+            if (Version == 0)
+            {
+                userFiles = userFiles.Where(i => i.Version == 0);
+            }
+            else if (Version > 0)
+            {
+                userFiles = userFiles.Where(i => i.Version == Version);
+            }
+            return Ok(userFiles);
         }
 
         // POST api/FileUploader
