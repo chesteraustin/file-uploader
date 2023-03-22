@@ -16,11 +16,15 @@ namespace file_uploader.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
 
-            modelBuilder.Entity("file_uploader.Models.FileModel", b =>
+            modelBuilder.Entity("file_uploader.Models.UserFileModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("FileExtension")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("FileLocation")
                         .IsRequired()
@@ -38,7 +42,7 @@ namespace file_uploader.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Files");
+                    b.ToTable("UserFiles");
                 });
 
             modelBuilder.Entity("file_uploader.Models.UserModel", b =>
